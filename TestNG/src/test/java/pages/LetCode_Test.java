@@ -10,8 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 public class LetCode_Test {
 
 	@FindBy(how = How.XPATH,using="//a[contains(text(),'Edit')]") WebElement input_btn;
-//	@FindBy(how = How.XPATH,using="//input[@name='password']") WebElement txt_password;
-//	@FindBy(how = How.XPATH,using="//input[@class='button']") WebElement btn_login;
+	@FindBy(how = How.XPATH,using="//a[contains(text(),'Click')]") WebElement button_btn;
+	@FindBy(how = How.XPATH,using="//a[text()='Drop-Down']") WebElement select_btn;
 	
 	WebDriver driver;
 	public LetCode_Test(WebDriver driver) 
@@ -24,8 +24,16 @@ public class LetCode_Test {
 		switch(name){
 		case "input":
 			input_btn.click();
-			
-			
+			System.out.println("User clicked input card");
+			break;
+		case "button":
+			button_btn.click();
+			System.out.println("User clicked button card");
+			break;
+		case "dropdown":
+			select_btn.click();
+			System.out.println("User clicked button card");
+			break;
 		}
 		
 	}

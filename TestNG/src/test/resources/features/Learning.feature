@@ -1,8 +1,9 @@
 Feature: LetCode
 
-  Scenario Outline: Input
+  Scenario Outline: Input practice scenarios
     Given user launch browser
     Then user navigate to letcode website
+    And user navigate to practice workspace
     When user click on <card> card
     Then user enters data in Enter your full Name filed
     And user Append a text and press keyboard tab
@@ -15,3 +16,36 @@ Feature: LetCode
     Examples: 
       | card  |
       | input |
+
+  Scenario Outline: Button practice scenarios
+    Given user launch browser
+    Then user navigate to letcode website
+    And user navigate to practice workspace
+    When user click on <card> card
+    Then user click on home button and navigate to same page
+    And user get coordinates of button
+    And user find color of the button
+    And user find dimension of button
+    And user verifies the button is disabled
+    And user click and hold button
+    Then user exit browser
+
+    Examples: 
+      | card   |
+      | button |
+
+ 
+  Scenario Outline: Select practice scenarios
+    Given user launch browser
+    Then user navigate to letcode website
+    And user navigate to practice workspace
+    When user click on <card> card
+    And user select <fruit> in dropdown
+    And user select multiple superhero
+    And user select last program language
+    And user select india and print seleted option
+    Then user exit browser
+
+    Examples: 
+      | card     | fruit |
+      | dropdown | Apple |
