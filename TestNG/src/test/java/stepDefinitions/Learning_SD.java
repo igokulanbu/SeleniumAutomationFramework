@@ -4,8 +4,9 @@ package stepDefinitions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import pages.LetCode_Alert;
 import pages.LetCode_Button;
-import pages.LetCode_Dropdown;
+import pages.LetCode_Select;
 import pages.LetCode_Home;
 import pages.LetCode_Input;
 import pages.LetCode_Test;
@@ -21,12 +22,14 @@ public class Learning_SD {
 	LetCode_Input LC_I;
 	LetCode_Home LC_H;
 	LetCode_Button LC_B;
-	LetCode_Dropdown LC_DP;
+	LetCode_Select LC_DP;
+	LetCode_Alert LC_AL;
 	
 	
 	@Given("user launch browser")
 	public void LaunchBrowser()
 	{
+		System.setProperty("webdriver.http.factory", "jdk-http-client");
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\igoku\\git\\Selenium-Cucumber-TestNG\\TestNG\\Driver\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();	
@@ -151,25 +154,69 @@ public class Learning_SD {
 	@And("^user select (.*) in dropdown$")
 	public void user_select_fruit_in_dropdown(String fruit) throws InterruptedException 
 	{
-	   LC_DP = new LetCode_Dropdown(driver);
+	   LC_DP = new LetCode_Select(driver);
 	   LC_DP.select_fruit(fruit);
 		
 	}
 	@And("user select multiple superhero")
 	public void user_select_multiple_superhero() {
-		LC_DP=new LetCode_Dropdown(driver);
+		LC_DP=new LetCode_Select(driver);
 		LC_DP.multislect_superhero();
 	}
 	
 	@And("user select last program language")
 	public void user_select_last_program_language() throws InterruptedException {
-		LC_DP=new LetCode_Dropdown(driver);
+		LC_DP=new LetCode_Select(driver);
 		LC_DP.select_last_option();
 
 	}
 	@And ("user select india and print seleted option")
 	public void user_select_india_and_print_seleted_option() {
-		LC_DP=new LetCode_Dropdown(driver);
+		LC_DP=new LetCode_Select(driver);
 		LC_DP.select_india();		
+	}
+	@And ("user handles simple alert")
+	public void user_handles_simple_alert() {
+		
+		try {
+			LC_AL=new LetCode_Alert(driver);
+			LC_AL.simpleAlert();		
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+	}
+	@And ("user handles confirm alert")
+	public void user_handles_confirm_alert() {
+			
+		try {
+			LC_AL=new LetCode_Alert(driver);
+			LC_AL.confirmAlert();		
+		}
+		catch(Exception e){
+			System.out.println(e);
+			}
+	}
+	@And ("user handles prompt alert")
+	public void user_handles_prompt_alert() {
+			
+		try {
+			LC_AL=new LetCode_Alert(driver);
+			LC_AL.promptAlert();		
+		}
+		catch(Exception e){
+			System.out.println(e);
+			}
+	}
+	@And ("user handles modern alert")
+	public void user_handles_modern_alert() {
+			
+		try {
+			LC_AL=new LetCode_Alert(driver);
+			LC_AL.modernAlert();		
+		}
+		catch(Exception e){
+			System.out.println(e);
+			}
 	}
 }

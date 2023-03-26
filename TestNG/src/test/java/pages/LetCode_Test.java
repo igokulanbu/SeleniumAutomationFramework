@@ -12,6 +12,7 @@ public class LetCode_Test {
 	@FindBy(how = How.XPATH,using="//a[contains(text(),'Edit')]") WebElement input_btn;
 	@FindBy(how = How.XPATH,using="//a[contains(text(),'Click')]") WebElement button_btn;
 	@FindBy(how = How.XPATH,using="//a[text()='Drop-Down']") WebElement select_btn;
+	@FindBy(how = How.XPATH,using="//a[@href='/alert']") WebElement alert_btn;
 	
 	WebDriver driver;
 	public LetCode_Test(WebDriver driver) 
@@ -32,6 +33,10 @@ public class LetCode_Test {
 			break;
 		case "dropdown":
 			select_btn.click();
+			System.out.println("User clicked button card");
+			break;
+		case "alert":
+			alert_btn.click();
 			System.out.println("User clicked button card");
 			break;
 		}

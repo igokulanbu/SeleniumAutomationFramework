@@ -41,6 +41,19 @@
 	    <artifactId>extentreports</artifactId>
 	    <version>5.0.9</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	<dependency>
+   		<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-lang3</artifactId>
+    	<version>3.12.0</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>org.seleniumhq.selenium</groupId>
+    	<artifactId>selenium-http-jdk-client</artifactId>
+    	<version>4.5.0</version>
+	</dependency>
+
 	
   </dependencies>
   <build>

@@ -1,5 +1,6 @@
 Feature: LetCode
 
+  @input
   Scenario Outline: Input practice scenarios
     Given user launch browser
     Then user navigate to letcode website
@@ -17,6 +18,7 @@ Feature: LetCode
       | card  |
       | input |
 
+  @button
   Scenario Outline: Button practice scenarios
     Given user launch browser
     Then user navigate to letcode website
@@ -34,7 +36,7 @@ Feature: LetCode
       | card   |
       | button |
 
- 
+  @select
   Scenario Outline: Select practice scenarios
     Given user launch browser
     Then user navigate to letcode website
@@ -49,3 +51,19 @@ Feature: LetCode
     Examples: 
       | card     | fruit |
       | dropdown | Apple |
+
+  @alert
+  Scenario Outline: Alert practice scenarios
+    Given user launch browser
+    Then user navigate to letcode website
+    And user navigate to practice workspace
+    When user click on <card> card
+    And user handles simple alert
+    And user handles confirm alert
+    And user handles prompt alert
+    And user handles modern alert
+    Then user exit browser
+
+    Examples: 
+      | card  |
+      | alert |
