@@ -1,6 +1,13 @@
 package stepDefinitions;
 
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import io.cucumber.java.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
@@ -23,6 +30,9 @@ import io.cucumber.java.en.When;
 
 public class Learning_SD {
 	private static final Logger logger = LoggerFactory.getLogger(Learning_SD.class);
+	 static ExtentReports extent;
+	 static ExtentSparkReporter spark;
+	 static ExtentTest test;
 
 	WebDriver driver;
 	LetCode_Test LC_T;
@@ -35,33 +45,54 @@ public class Learning_SD {
 	LetCode_Ratio LC_R;
 	LetCode_Windows LC_Win;
 	LetCode_Elements LC_Ele;
-
-
+	@BeforeAll
+	public static void suite_setup(){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+		String formattedTimestamp = formatter.format(LocalDateTime.now());
+		extent = new ExtentReports();
+		spark = new ExtentSparkReporter(String.format("reports/%s_Spark.html",formattedTimestamp));
+	}
+	@AfterAll
+	public static void suite_tearDown(){
+		extent.flush();
+	}
+	@Before
+	public static void setup(Scenario scenario){
+		test = extent.createTest(scenario.getName());
+	}
 	@Given("user launch browser")
 	public void LaunchBrowser()
 	{
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		logger.atInfo().log("==Launched Browser==");
-	}
+		try{
+			extent.attachReporter(spark);
+			driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			logger.atInfo().log("Launched browser successfully!");
+			test.log(Status.PASS, "Launched browser successfully!");
+		}
+		catch (Exception e){
+			logger.atError().log("Fails to launch browser!");
+			test.log(Status.FAIL, e.getMessage());
+		}
 
+	}
 
 	@Then("user navigate to letcode website")
 	public void user_nav_website() throws InterruptedException 
 	{
 		// Write code here that turns the phrase above into concrete actions
 		driver.get("https://letcode.in");
-		Thread.sleep(1000);
-		System.out.println("==LetCode homepage loaded==");
-		logger.atInfo().log("==LetCode homepage loaded==");
+		logger.atInfo().log("Successfully launched LetCode page!");
+		test.log(Status.PASS, "Successfully launched LetCode page!");
+
 	}
 
 	@And("user navigate to practice workspace")
 	public void user_navigate_to_practice_workspace() throws InterruptedException {
 		LC_H = new LetCode_Home(driver);
 		LC_H.workspace();
-		Thread.sleep(1000);
-		System.out.println("==Practice workspace loaded==");
+		logger.atInfo().log("Navigated to practice  workspace successfully!");
+		test.log(Status.PASS, "Navigated to practice  workspace successfully!");
 	}
 
 
@@ -71,7 +102,6 @@ public class Learning_SD {
 		// Write code here that turns the phrase above into concrete actions
 		LC_T = new LetCode_Test(driver);
 		LC_T.SwitchCard(card);
-		Thread.sleep(1000);
 		System.out.println("=="+card+" card loaded==");		
 	}
 
@@ -80,45 +110,38 @@ public class Learning_SD {
 
 		LC_I = new LetCode_Input(driver);
 		LC_I.entername();
-		Thread.sleep(1000);
 	}
 	@And("user Append a text and press keyboard tab")
 	public void  user_Append_text_press_keyboard_tab() throws InterruptedException {
 		LC_I = new LetCode_Input(driver);
 		LC_I.appendMe();
-		Thread.sleep(1000);
 
 	}
 	@And("user reads the text in the field")
 	public void  user_reads_the_text_in_the_field() throws InterruptedException {
 		LC_I = new LetCode_Input(driver);
 		LC_I.getMe();
-		Thread.sleep(1000);
 	}
 	@And("user clears text in the field")
 	public void  user_clears_text_in_the_field() throws InterruptedException {
 		LC_I = new LetCode_Input(driver);
 		LC_I.clearMe();
-		Thread.sleep(1000);
 	}
 	@And("user verify the input field is disabled")
 	public void  user_verify_the_input_field_is_disabled() throws InterruptedException {
 		LC_I = new LetCode_Input(driver);
 		LC_I.disableMe();
-		Thread.sleep(1000);
 	}
 	@And("user verify the input filed is read only")
 	public void  user_verify_the_input_filed_is_read_only() throws InterruptedException {
 		LC_I = new LetCode_Input(driver);
 		LC_I.readonly();
-		Thread.sleep(1000);
 	}
 
 	@And ("user exit browser")
 	public void ExitBrowser() throws InterruptedException{
-		Thread.sleep(2000);
 		driver.quit();
-		System.out.println("==Terminated Browser==");
+		logger.atInfo().log("Terminated Browser!");
 
 	}
 	@Then("user click on home button and navigate to same page")
@@ -176,14 +199,24 @@ public class Learning_SD {
 
 	@And("user select last program language")
 	public void user_select_last_program_language() throws InterruptedException {
-		LC_DP=new LetCode_Select(driver);
-		LC_DP.select_last_option();
+		try {
+			LC_DP=new LetCode_Select(driver);
+			LC_DP.select_last_option();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 	@And ("user select india and print seleted option")
 	public void user_select_india_and_print_seleted_option() {
-		LC_DP=new LetCode_Select(driver);
-		LC_DP.select_india();		
+		try {
+			LC_DP=new LetCode_Select(driver);
+			LC_DP.select_india();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	@And ("user handles simple alert")
 	public void user_handles_simple_alert() {
@@ -193,7 +226,7 @@ public class Learning_SD {
 			LC_AL.simpleAlert();		
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user handles confirm alert")
@@ -204,7 +237,7 @@ public class Learning_SD {
 			LC_AL.confirmAlert();		
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user handles prompt alert")
@@ -215,7 +248,7 @@ public class Learning_SD {
 			LC_AL.promptAlert();		
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user handles modern alert")
@@ -226,7 +259,7 @@ public class Learning_SD {
 			LC_AL.modernAlert();		
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user enters name details")
@@ -238,7 +271,7 @@ public class Learning_SD {
 				
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user enters email")
@@ -249,7 +282,7 @@ public class Learning_SD {
 				LC_F.enterEmailDetails();
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	@And ("user click watch titorial link")
@@ -260,7 +293,7 @@ public class Learning_SD {
 				LC_F.watchTutorial();
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -271,12 +304,10 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.select_yes();
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -287,12 +318,10 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.selectOnlyOneButton("confirm");
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -303,12 +332,10 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.selectOnlyOneButton("find");
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -319,12 +346,10 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.verify_selected_ratiobtn();
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -335,12 +360,10 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.isRatioDisabled();
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -351,15 +374,12 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.isCheckboxSelected();
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
-	
 	@And ("user accepts the terms and conditions")
 	public void user_accepts_the_terms_and_conditions() 
 	{
@@ -367,46 +387,35 @@ public class Learning_SD {
 		{
 			LC_R = new LetCode_Ratio(driver);
 			LC_R.checkTC();
-			//Thread.sleep(Duration.ofSeconds(3));
-			Thread.sleep(3000);
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
 	@And ("user handles windows on clicking GoToHome button")
 	public void  user_handles_windows_on_clicking_GoToHome_button()
 	{
-		LC_Win = new LetCode_Windows(driver);
-		LC_Win.goToHome_Actions();
 		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			LC_Win = new LetCode_Windows(driver);
+			LC_Win.goToHome_Actions();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
-
 	@And ("user handles windows on clicking OpenMultipleWindows button")
 	public void  user_handles_windows_on_clicking_OpenMultipleWindows_button()
 	{
-
-		
 		try {
 			LC_Win = new LetCode_Windows(driver);
 			LC_Win.openMultipleWindows_Actions();
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
-			
 		}
 		
 	}
-
 	@And ("user perform actions for {string} in element page")
 	public void  user_perform_actions_in_element_page(String uname)
 	{
@@ -414,9 +423,7 @@ public class Learning_SD {
 		try {
 			LC_Ele = new LetCode_Elements(driver);
 			LC_Ele.elements_Actions(uname);
-			Thread.sleep(1000);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -427,9 +434,7 @@ public class Learning_SD {
 		try {
 			LetCode_Drag LC_Drag = new LetCode_Drag(driver);
 			LC_Drag.dragbox();
-			Thread.sleep(1000);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
