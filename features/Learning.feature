@@ -118,5 +118,5 @@ Feature: LetCode
     Then user navigate to letcode website
     And user navigate to practice workspace
     When user click on "drag" card
-    And user perfrom drag action
+    And user perform drag action
     Then user exit browser

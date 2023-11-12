@@ -1,11 +1,10 @@
 package stepDefinitions;
 
 
-import java.time.Duration;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pages.LetCode_Alert;
 import pages.LetCode_Button;
 import pages.LetCode_Drag;
@@ -21,9 +20,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Learning_SD {
+	private static final Logger logger = LoggerFactory.getLogger(Learning_SD.class);
 
 	WebDriver driver;
 	LetCode_Test LC_T;
@@ -41,12 +40,9 @@ public class Learning_SD {
 	@Given("user launch browser")
 	public void LaunchBrowser()
 	{
-		WebDriverManager.chromedriver().driverVersion("114").setup();
-		System.setProperty("webdriver.http.factory", "jdk-http-client");
-		//System.setProperty("webdriver.chrome.driver", "C:\\Users\\igoku\\git\\Selenium-Cucumber-TestNG\\TestNG\\Driver\\chromedriver.exe");
 		driver = new ChromeDriver();
-		driver.manage().window().maximize();	
-		System.out.println("==Launched Browser==");
+		driver.manage().window().maximize();
+		logger.atInfo().log("==Launched Browser==");
 	}
 
 
@@ -57,6 +53,7 @@ public class Learning_SD {
 		driver.get("https://letcode.in");
 		Thread.sleep(1000);
 		System.out.println("==LetCode homepage loaded==");
+		logger.atInfo().log("==LetCode homepage loaded==");
 	}
 
 	@And("user navigate to practice workspace")
@@ -424,8 +421,8 @@ public class Learning_SD {
 		}
 
 	}
-	@And ("user perfrom drag action")
-	public void user_perfrom_drag_action()
+	@And ("user perform drag action")
+	public void user_perform_drag_action()
 	{
 		try {
 			LetCode_Drag LC_Drag = new LetCode_Drag(driver);
