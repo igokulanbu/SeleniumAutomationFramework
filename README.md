@@ -6,6 +6,7 @@ Dependecies:
 2. Cucumber
 3. Java
 4. TestNG
+5. Extent Report
 
 Special Thanks
 https://www.youtube.com/@RaghavPal
