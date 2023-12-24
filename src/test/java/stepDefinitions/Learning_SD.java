@@ -65,6 +65,7 @@ public class Learning_SD {
 	{
 		try{
 			extent.attachReporter(spark);
+//			memoryUsage();
 			driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			logger.atInfo().log("Launched browser successfully!");
@@ -84,6 +85,7 @@ public class Learning_SD {
 		driver.get("https://letcode.in");
 		logger.atInfo().log("Successfully launched LetCode page!");
 		test.log(Status.PASS, "Successfully launched LetCode page!");
+//		memoryUsage();
 
 	}
 
@@ -437,6 +439,27 @@ public class Learning_SD {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void memoryUsage(){
+
+		int mb = 1024 * 1024;
+		// get Runtime instance
+		Runtime instance = Runtime.getRuntime();
+		long totalMemory = instance.totalMemory();
+		long freeMemory = instance.freeMemory();
+		long usedMemory = totalMemory - freeMemory;
+		long maxMemory = instance.maxMemory();
+		System.out.println("***** Heap utilization statistics [MB] *****\n");
+		// available memory
+		System.out.println("Total Memory: " + totalMemory / mb);
+		// free memory
+		System.out.println("Free Memory: " + freeMemory / mb);
+		// used memory
+		System.out.println("Used Memory: " + usedMemory / mb);
+		// Maximum available memory
+		System.out.println("Max Memory: " + maxMemory / mb);
+
 	}
 	
 	

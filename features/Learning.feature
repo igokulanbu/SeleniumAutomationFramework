@@ -68,7 +68,7 @@ Feature: LetCode
 
 
   @radio
-  Scenario: Frame practice scenarios
+  Scenario: Radio practice scenarios
     Given user launch browser
     Then user navigate to letcode website
     And user navigate to practice workspace
@@ -84,7 +84,7 @@ Feature: LetCode
 
 
   @windows
-  Scenario: Frame practice scenarios
+  Scenario: Windows practice scenarios
     Given user launch browser
     Then user navigate to letcode website
     And user navigate to practice workspace
@@ -94,7 +94,7 @@ Feature: LetCode
 
 
   @windows
-  Scenario: Frame practice scenarios
+  Scenario: Windows practice scenarios - 2
     Given user launch browser
     Then user navigate to letcode website
     And user navigate to practice workspace
@@ -103,7 +103,7 @@ Feature: LetCode
     Then user exit browser
 
   @elements
-  Scenario: Frame practice scenarios
+  Scenario: Elements practice scenarios
     Given user launch browser
     Then user navigate to letcode website
     And user navigate to practice workspace
@@ -113,7 +113,7 @@ Feature: LetCode
     Then user exit browser
     
   @drag
-  Scenario: Frame practice scenarios
+  Scenario: Drag practice scenarios
     Given user launch browser
     Then user navigate to letcode website
     And user navigate to practice workspace

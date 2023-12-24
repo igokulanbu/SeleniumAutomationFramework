@@ -2,14 +2,14 @@ package testRunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-	    
+
 @CucumberOptions(
-		tags = "@input",
+		plugin = {},
 		features = {"features/Learning.feature"},
 		glue = {"stepDefinitions"},
-		plugin = {}
+		tags = ""
 )
 	    
-public class CucumberRunnerTests extends AbstractTestNGCucumberTests {
+public class TestRunner extends AbstractTestNGCucumberTests {
 	    
 }
