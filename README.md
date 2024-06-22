@@ -1,4 +1,4 @@
-# Selenium-Cucumber-TestNG
+# Selenium Automation Framework
 A web application testing framework equipped with Page Factory concept.
 
 Dependecies:
